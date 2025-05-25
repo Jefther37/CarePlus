@@ -24,25 +24,25 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+    <div className="min-h-screen bg-gradient-to-br from-medical-blue-light/10 via-white to-medical-accent/10">
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-md border-b border-blue-100 sticky top-0 z-50">
+      <header className="medical-card-bg border-b border-medical-blue-light/20 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-green-500 rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 medical-gradient rounded-lg flex items-center justify-center shadow-lg">
                 <Bell className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
+                <h1 className="text-2xl font-bold medical-text-primary">
                   HealthVibe Reminders
                 </h1>
-                <p className="text-sm text-gray-600">Smart Patient Follow-up System</p>
+                <p className="text-sm medical-text-secondary">Smart Patient Follow-up System</p>
               </div>
             </div>
             <Button 
               onClick={() => setIsAddModalOpen(true)}
-              className="bg-gradient-to-r from-blue-500 to-green-500 hover:from-blue-600 hover:to-green-600 text-white shadow-lg hover:shadow-xl transition-all duration-300"
+              className="medical-gradient hover:opacity-90 text-white shadow-lg hover:shadow-xl transition-all duration-300"
             >
               <Plus className="w-4 h-4 mr-2" />
               Schedule Appointment
@@ -55,11 +55,11 @@ const Index = () => {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Welcome Section */}
         <div className="mb-8 text-center animate-fade-in">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-4xl font-bold text-foreground mb-4">
             Welcome to the Future of 
-            <span className="bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent"> Patient Care</span>
+            <span className="medical-text-primary"> Patient Care</span>
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg medical-text-secondary max-w-2xl mx-auto">
             Never miss a follow-up again. Our AI-powered reminder system ensures your patients stay connected 
             with automated SMS, WhatsApp, and email notifications.
           </p>
@@ -78,43 +78,43 @@ const Index = () => {
           {/* Quick Actions & Insights */}
           <div className="space-y-6">
             {/* Notification Channels */}
-            <Card className="shadow-lg border-0 bg-white/70 backdrop-blur-sm">
+            <Card className="shadow-lg border-0 medical-card-bg">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <MessageSquare className="w-5 h-5 text-blue-500" />
+                  <MessageSquare className="w-5 h-5 text-medical-blue" />
                   Notification Channels
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <Phone className="w-4 h-4 text-green-500" />
+                    <Phone className="w-4 h-4 text-medical-green" />
                     <span className="text-sm">SMS Messages</span>
                   </div>
-                  <Badge variant="secondary" className="bg-green-100 text-green-700">Active</Badge>
+                  <Badge variant="secondary" className="bg-medical-green-light/20 text-medical-green border-medical-green/20">Active</Badge>
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <MessageSquare className="w-4 h-4 text-green-500" />
+                    <MessageSquare className="w-4 h-4 text-medical-green" />
                     <span className="text-sm">WhatsApp</span>
                   </div>
-                  <Badge variant="secondary" className="bg-green-100 text-green-700">Active</Badge>
+                  <Badge variant="secondary" className="bg-medical-green-light/20 text-medical-green border-medical-green/20">Active</Badge>
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <Bell className="w-4 h-4 text-blue-500" />
+                    <Bell className="w-4 h-4 text-medical-blue" />
                     <span className="text-sm">Email</span>
                   </div>
-                  <Badge variant="secondary" className="bg-blue-100 text-blue-700">Active</Badge>
+                  <Badge variant="secondary" className="bg-medical-blue-light/20 text-medical-blue border-medical-blue/20">Active</Badge>
                 </div>
               </CardContent>
             </Card>
 
             {/* Completion Rate */}
-            <Card className="shadow-lg border-0 bg-white/70 backdrop-blur-sm">
+            <Card className="shadow-lg border-0 medical-card-bg">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <BarChart3 className="w-5 h-5 text-purple-500" />
+                  <BarChart3 className="w-5 h-5 text-medical-accent" />
                   This Month's Performance
                 </CardTitle>
               </CardHeader>
@@ -122,21 +122,21 @@ const Index = () => {
                 <div>
                   <div className="flex justify-between text-sm mb-2">
                     <span>Appointment Completion</span>
-                    <span className="font-semibold">85%</span>
+                    <span className="font-semibold medical-text-primary">85%</span>
                   </div>
                   <Progress value={85} className="h-2" />
                 </div>
                 <div>
                   <div className="flex justify-between text-sm mb-2">
                     <span>Response Rate</span>
-                    <span className="font-semibold">92%</span>
+                    <span className="font-semibold medical-text-primary">92%</span>
                   </div>
                   <Progress value={92} className="h-2" />
                 </div>
                 <div>
                   <div className="flex justify-between text-sm mb-2">
                     <span>Follow-up Success</span>
-                    <span className="font-semibold">78%</span>
+                    <span className="font-semibold medical-text-primary">78%</span>
                   </div>
                   <Progress value={78} className="h-2" />
                 </div>
@@ -144,11 +144,11 @@ const Index = () => {
             </Card>
 
             {/* Quick Tips */}
-            <Card className="shadow-lg border-0 bg-gradient-to-br from-blue-50 to-green-50">
+            <Card className="shadow-lg border-0 medical-gradient-subtle">
               <CardHeader>
-                <CardTitle className="text-lg">💡 Pro Tips</CardTitle>
+                <CardTitle className="text-lg medical-text-primary">💡 Pro Tips</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3 text-sm">
+              <CardContent className="space-y-3 text-sm medical-text-secondary">
                 <p>• Send reminders 24-48 hours before appointments for best results</p>
                 <p>• Use personalized messages to improve patient engagement</p>
                 <p>• Follow up within 2 hours if a patient misses their appointment</p>

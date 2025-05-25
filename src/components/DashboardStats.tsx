@@ -9,32 +9,32 @@ const DashboardStats = () => {
       value: "12",
       change: "+3 from yesterday",
       icon: Calendar,
-      color: "from-blue-500 to-blue-600",
-      bgColor: "bg-blue-50"
+      color: "text-medical-blue",
+      bgColor: "bg-medical-blue-light/10 border-medical-blue/20"
     },
     {
       title: "Active Patients",
       value: "248",
       change: "+12 this week",
       icon: Users,
-      color: "from-green-500 to-green-600",
-      bgColor: "bg-green-50"
+      color: "text-medical-green",
+      bgColor: "bg-medical-green-light/10 border-medical-green/20"
     },
     {
       title: "Pending Reminders",
       value: "8",
       change: "Next in 2 hours",
       icon: Clock,
-      color: "from-orange-500 to-orange-600",
-      bgColor: "bg-orange-50"
+      color: "text-medical-accent",
+      bgColor: "bg-medical-accent/10 border-medical-accent/20"
     },
     {
       title: "Completion Rate",
       value: "85%",
       change: "+5% from last month",
       icon: CheckCircle,
-      color: "from-purple-500 to-purple-600",
-      bgColor: "bg-purple-50"
+      color: "text-medical-blue-dark",
+      bgColor: "bg-medical-blue-dark/10 border-medical-blue-dark/20"
     }
   ];
 
@@ -43,17 +43,17 @@ const DashboardStats = () => {
       {stats.map((stat, index) => (
         <Card 
           key={index} 
-          className="shadow-lg border-0 bg-white/70 backdrop-blur-sm hover:shadow-xl transition-all duration-300 hover-scale"
+          className={`shadow-lg border medical-card-bg hover:shadow-xl transition-all duration-300 hover-scale ${stat.bgColor}`}
         >
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600 mb-1">{stat.title}</p>
-                <p className="text-3xl font-bold text-gray-900 mb-1">{stat.value}</p>
-                <p className="text-xs text-gray-500">{stat.change}</p>
+                <p className="text-sm font-medium medical-text-secondary mb-1">{stat.title}</p>
+                <p className="text-3xl font-bold text-foreground mb-1">{stat.value}</p>
+                <p className="text-xs medical-text-secondary">{stat.change}</p>
               </div>
-              <div className={`w-12 h-12 ${stat.bgColor} rounded-lg flex items-center justify-center`}>
-                <stat.icon className={`w-6 h-6 bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`} />
+              <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${stat.bgColor}`}>
+                <stat.icon className={`w-6 h-6 ${stat.color}`} />
               </div>
             </div>
           </CardContent>
