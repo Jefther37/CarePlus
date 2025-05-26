@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Calendar, Bell, Users, BarChart3, Plus, Clock, MessageSquare, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -9,68 +8,60 @@ import DashboardStats from '@/components/DashboardStats';
 import AppointmentsList from '@/components/AppointmentsList';
 import AddAppointmentModal from '@/components/AddAppointmentModal';
 import { useToast } from '@/hooks/use-toast';
-
 const Index = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
-
+  const {
+    toast
+  } = useToast();
   const handleAddAppointment = async (appointmentData: any) => {
     setIsLoading(true);
     console.log('New appointment:', appointmentData);
-    
     try {
       // Insert the new appointment into the reminders table
-      const { error } = await supabase
-        .from('reminders')
-        .insert({
-          patient_name: appointmentData.patientName,
-          patient_phone: appointmentData.phone,
-          patient_email: appointmentData.email,
-          appointment_date: appointmentData.date,
-          appointment_time: appointmentData.time,
-          appointment_type: appointmentData.type || 'Follow-up Consultation',
-          status: 'scheduled'
-        });
-
+      const {
+        error
+      } = await supabase.from('reminders').insert({
+        patient_name: appointmentData.patientName,
+        patient_phone: appointmentData.phone,
+        patient_email: appointmentData.email,
+        appointment_date: appointmentData.date,
+        appointment_time: appointmentData.time,
+        appointment_type: appointmentData.type || 'Follow-up Consultation',
+        status: 'scheduled'
+      });
       if (error) {
         console.error('Error creating appointment:', error);
         toast({
           title: "Error",
           description: "Failed to schedule appointment. Please try again.",
-          variant: "destructive",
+          variant: "destructive"
         });
         return;
       }
 
       // Log the appointment creation
-      await supabase
-        .from('logs')
-        .insert({
-          action: 'appointment_created',
-          details: `New appointment scheduled for ${appointmentData.patientName}`,
-        });
-
+      await supabase.from('logs').insert({
+        action: 'appointment_created',
+        details: `New appointment scheduled for ${appointmentData.patientName}`
+      });
       toast({
         title: "Appointment Scheduled",
-        description: "Patient will receive reminder notifications as configured.",
+        description: "Patient will receive reminder notifications as configured."
       });
-      
       setIsAddModalOpen(false);
     } catch (error) {
       console.error('Unexpected error:', error);
       toast({
         title: "Error",
         description: "An unexpected error occurred. Please try again.",
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setIsLoading(false);
     }
   };
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-medical-blue-light/10 via-white to-medical-accent/10">
+  return <div className="min-h-screen bg-gradient-to-br from-medical-blue-light/10 via-white to-medical-accent/10">
       {/* Mobile-optimized Header */}
       <header className="medical-card-bg border-b border-medical-blue-light/20 sticky top-0 z-50 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
@@ -80,17 +71,11 @@ const Index = () => {
                 <Bell className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-lg sm:text-2xl font-bold medical-text-primary">
-                  HealthVibe
-                </h1>
+                <h1 className="text-lg sm:text-2xl font-bold medical-text-primary">CarePlus</h1>
                 <p className="text-xs sm:text-sm medical-text-secondary hidden sm:block">Smart Patient Follow-up System</p>
               </div>
             </div>
-            <Button 
-              onClick={() => setIsAddModalOpen(true)}
-              className="medical-gradient hover:opacity-90 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover-scale text-xs sm:text-sm px-3 sm:px-4 py-2"
-              disabled={isLoading}
-            >
+            <Button onClick={() => setIsAddModalOpen(true)} className="medical-gradient hover:opacity-90 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover-scale text-xs sm:text-sm px-3 sm:px-4 py-2" disabled={isLoading}>
               <Plus className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
               <span className="hidden sm:inline">Schedule Appointment</span>
               <span className="sm:hidden">Schedule</span>
@@ -159,7 +144,9 @@ const Index = () => {
             </Card>
 
             {/* Completion Rate */}
-            <Card className="shadow-lg border-0 medical-card-bg animate-slide-in-right" style={{ animationDelay: '0.1s' }}>
+            <Card className="shadow-lg border-0 medical-card-bg animate-slide-in-right" style={{
+            animationDelay: '0.1s'
+          }}>
               <CardHeader className="pb-3 sm:pb-6">
                 <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
                   <BarChart3 className="w-4 h-4 sm:w-5 sm:h-5 text-medical-accent" />
@@ -192,7 +179,9 @@ const Index = () => {
             </Card>
 
             {/* Quick Tips */}
-            <Card className="shadow-lg border-0 medical-gradient-subtle animate-slide-in-right" style={{ animationDelay: '0.2s' }}>
+            <Card className="shadow-lg border-0 medical-gradient-subtle animate-slide-in-right" style={{
+            animationDelay: '0.2s'
+          }}>
               <CardHeader className="pb-3 sm:pb-6">
                 <CardTitle className="text-base sm:text-lg medical-text-primary">💡 Pro Tips</CardTitle>
               </CardHeader>
@@ -216,13 +205,7 @@ const Index = () => {
       </main>
 
       {/* Add Appointment Modal */}
-      <AddAppointmentModal 
-        isOpen={isAddModalOpen}
-        onClose={() => setIsAddModalOpen(false)}
-        onSubmit={handleAddAppointment}
-      />
-    </div>
-  );
+      <AddAppointmentModal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} onSubmit={handleAddAppointment} />
+    </div>;
 };
-
 export default Index;
