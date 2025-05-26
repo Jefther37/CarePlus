@@ -2,7 +2,7 @@
 
 CarePulse is a full-stack healthtech web application designed to help clinics and private doctors automatically schedule and manage patient follow-up reminders via SMS, WhatsApp, or Email. Built using **React**, **Supabase**, **Tailwind CSS**, **shadcn/ui**, and **Twilio**, the app ensures timely patient engagement, optimized clinical workflows, and enhanced healthcare outcomes.
 
-**Live Demo**: [CarePulse on Lovable.dev](https://lovable.dev/projects/f75605cd-d480-4244-8415-f04ebcf0729d)  
+**Live Demo**: [CarePulse on Lovable.dev](https://preview--vibe-health-reminders-ai.lovable.app/)  
  **Source Code**: [GitHub Repository](https://github.com/Jefther37/CarePlus.git)
 
 ## Features
