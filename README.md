@@ -1,73 +1,54 @@
-# Welcome to your Lovable project
+# 🏥 CarePulse – Follow-Up Reminder System
 
-## Project info
+CarePulse is a full-stack healthtech web application designed to help clinics and private doctors automatically schedule and manage patient follow-up reminders via SMS, WhatsApp, or Email. Built using **React**, **Supabase**, **Tailwind CSS**, **shadcn/ui**, and **Twilio**, the app ensures timely patient engagement, optimized clinical workflows, and enhanced healthcare outcomes.
 
-**URL**: https://lovable.dev/projects/f75605cd-d480-4244-8415-f04ebcf0729d
+**Live Demo**: [CarePulse on Lovable.dev](https://lovable.dev/projects/f75605cd-d480-4244-8415-f04ebcf0729d)  
+ **Source Code**: [GitHub Repository](https://github.com/Jefther37/CarePlus.git)
 
-## How can I edit this code?
+## Features
 
-There are several ways of editing your application.
+-  **Doctor Login & Role-Based Access Control (RBAC)**
+- **User Registration & Onboarding**
+-  **Set & View Follow-Up Reminders**
+-  **Patient Portal**
+- **Admin Dashboard & Tools**
+-  **Multichannel Notifications (SMS, WhatsApp, Email via Twilio)**
+- **Improved Error Handling & Loading States**
+- **Rate Limiting & Daily Summary Reports**
+-  **Logs & Audit Trail System**
 
-**Use Lovable**
+## Technologies Used
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/f75605cd-d480-4244-8415-f04ebcf0729d) and start prompting.
+- React + Vite
+- Supabase (auth, database, logging)
+- Tailwind CSS + shadcn/ui
+- Twilio API (SMS/WhatsApp)
+- Node.js (backend logic)
+- Lovable.dev for rapid prototyping and deployment
 
-Changes made via Lovable will be committed automatically to this repo.
+## Getting Started
 
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
+git clone https://github.com/Jefther37/CarePlus.git
+cd CarePlus
+npm install
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## How to Edit
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+-  Use [Lovable.dev Project](https://lovable.dev/projects/f75605cd-d480-4244-8415-f04ebcf0729d) to prompt-edit your code.
+- 🛠 Or use VS Code locally. Ensure Node.js + npm are installed.
 
-**Use GitHub Codespaces**
+## Deployment
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+To deploy, open Lovable → Share → Publish.  
+For custom domains: Project → Settings → Domains → Connect Domain.
 
-## What technologies are used for this project?
 
-This project is built with:
+© 2025 Jefther Simeon Afuyo – Built with Lovable.dev and care.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
 
-## How can I deploy this project?
 
-Simply open [Lovable](https://lovable.dev/projects/f75605cd-d480-4244-8415-f04ebcf0729d) and click on Share -> Publish.
 
-## Can I connect a custom domain to my Lovable project?
 
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
