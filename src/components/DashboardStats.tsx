@@ -2,21 +2,15 @@
 import { Calendar, Users, Clock, CheckCircle } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useState, useEffect } from 'react';
+import { useDashboardStats } from '@/hooks/useDashboardStats';
 
 const DashboardStats = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  const { data: stats, isLoading, error } = useDashboardStats();
 
-  useEffect(() => {
-    // Simulate loading
-    const timer = setTimeout(() => setIsLoading(false), 800);
-    return () => clearTimeout(timer);
-  }, []);
-
-  const stats = [
+  const statsData = [
     {
       title: "Today's Appointments",
-      value: "12",
+      value: stats?.todayAppointments?.toString() || "0",
       change: "+3 from yesterday",
       icon: Calendar,
       color: "text-medical-blue",
@@ -25,7 +19,7 @@ const DashboardStats = () => {
     },
     {
       title: "Active Patients",
-      value: "248",
+      value: stats?.activePatients?.toString() || "0",
       change: "+12 this week",
       icon: Users,
       color: "text-medical-green",
@@ -34,7 +28,7 @@ const DashboardStats = () => {
     },
     {
       title: "Pending Reminders",
-      value: "8",
+      value: stats?.pendingReminders?.toString() || "0",
       change: "Next in 2 hours",
       icon: Clock,
       color: "text-medical-accent",
@@ -43,7 +37,7 @@ const DashboardStats = () => {
     },
     {
       title: "Completion Rate",
-      value: "85%",
+      value: `${stats?.completionRate || 0}%`,
       change: "+5% from last month",
       icon: CheckCircle,
       color: "text-medical-blue-dark",
@@ -52,10 +46,22 @@ const DashboardStats = () => {
     }
   ];
 
+  if (error) {
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+        <Card className="shadow-lg border medical-card-bg">
+          <CardContent className="p-4 sm:p-6 text-center">
+            <p className="text-destructive text-sm">Error loading stats</p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
-        {stats.map((_, index) => (
+        {statsData.map((_, index) => (
           <Card key={index} className="shadow-lg border medical-card-bg">
             <CardContent className="p-4 sm:p-6">
               <div className="flex items-center justify-between">
@@ -75,7 +81,7 @@ const DashboardStats = () => {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 animate-fade-in">
-      {stats.map((stat, index) => (
+      {statsData.map((stat, index) => (
         <Card 
           key={index} 
           className={`shadow-lg border medical-card-bg hover:shadow-xl transition-all duration-300 hover-scale group cursor-pointer ${stat.bgColor} animate-scale-in`}

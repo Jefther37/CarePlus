@@ -150,43 +150,52 @@ export type Database = {
         Row: {
           appointment_date: string | null
           appointment_time: string | null
+          appointment_type: string | null
           channel: string | null
           created_at: string | null
           doctor_email: string | null
           doctor_id: string | null
           id: string
+          last_reminder_sent: string | null
           patient_email: string | null
           patient_id: string | null
           patient_name: string | null
           patient_phone: string | null
+          reminder_count: number | null
           status: string | null
         }
         Insert: {
           appointment_date?: string | null
           appointment_time?: string | null
+          appointment_type?: string | null
           channel?: string | null
           created_at?: string | null
           doctor_email?: string | null
           doctor_id?: string | null
           id?: string
+          last_reminder_sent?: string | null
           patient_email?: string | null
           patient_id?: string | null
           patient_name?: string | null
           patient_phone?: string | null
+          reminder_count?: number | null
           status?: string | null
         }
         Update: {
           appointment_date?: string | null
           appointment_time?: string | null
+          appointment_type?: string | null
           channel?: string | null
           created_at?: string | null
           doctor_email?: string | null
           doctor_id?: string | null
           id?: string
+          last_reminder_sent?: string | null
           patient_email?: string | null
           patient_id?: string | null
           patient_name?: string | null
           patient_phone?: string | null
+          reminder_count?: number | null
           status?: string | null
         }
         Relationships: [
@@ -223,7 +232,48 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      appointments_view: {
+        Row: {
+          appointment_date: string | null
+          appointment_time: string | null
+          appointment_type: string | null
+          created_at: string | null
+          id: string | null
+          last_reminder_sent: string | null
+          patient_email: string | null
+          patient_name: string | null
+          patient_phone: string | null
+          reminder_count: number | null
+          status: string | null
+        }
+        Insert: {
+          appointment_date?: string | null
+          appointment_time?: string | null
+          appointment_type?: string | null
+          created_at?: string | null
+          id?: string | null
+          last_reminder_sent?: string | null
+          patient_email?: string | null
+          patient_name?: string | null
+          patient_phone?: string | null
+          reminder_count?: number | null
+          status?: string | null
+        }
+        Update: {
+          appointment_date?: string | null
+          appointment_time?: string | null
+          appointment_type?: string | null
+          created_at?: string | null
+          id?: string | null
+          last_reminder_sent?: string | null
+          patient_email?: string | null
+          patient_name?: string | null
+          patient_phone?: string | null
+          reminder_count?: number | null
+          status?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never

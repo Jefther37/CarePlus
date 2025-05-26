@@ -19,15 +19,54 @@ const Index = () => {
     setIsLoading(true);
     console.log('New appointment:', appointmentData);
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    toast({
-      title: "Appointment Scheduled",
-      description: "Patient will receive reminder notifications as configured.",
-    });
-    setIsAddModalOpen(false);
-    setIsLoading(false);
+    try {
+      // Insert the new appointment into the reminders table
+      const { error } = await supabase
+        .from('reminders')
+        .insert({
+          patient_name: appointmentData.patientName,
+          patient_phone: appointmentData.phone,
+          patient_email: appointmentData.email,
+          appointment_date: appointmentData.date,
+          appointment_time: appointmentData.time,
+          appointment_type: appointmentData.type || 'Follow-up Consultation',
+          status: 'scheduled'
+        });
+
+      if (error) {
+        console.error('Error creating appointment:', error);
+        toast({
+          title: "Error",
+          description: "Failed to schedule appointment. Please try again.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Log the appointment creation
+      await supabase
+        .from('logs')
+        .insert({
+          action: 'appointment_created',
+          details: `New appointment scheduled for ${appointmentData.patientName}`,
+        });
+
+      toast({
+        title: "Appointment Scheduled",
+        description: "Patient will receive reminder notifications as configured.",
+      });
+      
+      setIsAddModalOpen(false);
+    } catch (error) {
+      console.error('Unexpected error:', error);
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
