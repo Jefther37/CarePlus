@@ -181,7 +181,6 @@ const Index = () => {
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
         onSubmit={handleAddAppointment}
-        isLoading={isLoading}
       />
     </div>
   );
