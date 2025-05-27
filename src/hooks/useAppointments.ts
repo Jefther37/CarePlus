@@ -46,16 +46,35 @@ export const useSendReminder = () => {
     mutationFn: async ({ appointmentId, channel }: { appointmentId: string; channel: string }) => {
       console.log(`Sending ${channel} reminder for appointment ${appointmentId}`);
       
-      // Update reminder count and last sent timestamp
+      // Update reminder count and last sent timestamp using raw SQL
       const { error } = await supabase
         .from('reminders')
         .update({
           last_reminder_sent: new Date().toISOString(),
-          reminder_count: supabase.sql`reminder_count + 1`
+          reminder_count: supabase.rpc('increment_reminder_count', { reminder_id: appointmentId })
         })
         .eq('id', appointmentId);
 
-      if (error) throw error;
+      if (error) {
+        // Fallback to a simpler update if the function doesn't exist
+        const { data: current, error: fetchError } = await supabase
+          .from('reminders')
+          .select('reminder_count')
+          .eq('id', appointmentId)
+          .single();
+
+        if (fetchError) throw fetchError;
+
+        const { error: updateError } = await supabase
+          .from('reminders')
+          .update({
+            last_reminder_sent: new Date().toISOString(),
+            reminder_count: (current?.reminder_count || 0) + 1
+          })
+          .eq('id', appointmentId);
+
+        if (updateError) throw updateError;
+      }
 
       // Log the reminder action
       await supabase
