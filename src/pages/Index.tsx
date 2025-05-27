@@ -20,17 +20,19 @@ const Index = () => {
     console.log('New appointment:', appointmentData);
     
     try {
-      // Insert the new appointment into the reminders table
+      // Insert the new appointment into the reminders table with all required fields
       const { error } = await supabase
         .from('reminders')
         .insert({
           patient_name: appointmentData.patientName,
           patient_phone: appointmentData.phone,
           patient_email: appointmentData.email,
-          appointment_date: appointmentData.date,
-          appointment_time: appointmentData.time,
-          appointment_type: appointmentData.type || 'Follow-up Consultation',
-          status: 'scheduled'
+          appointment_date: appointmentData.appointmentDate,
+          appointment_time: appointmentData.appointmentTime,
+          appointment_type: appointmentData.appointmentType || 'Follow-up Consultation',
+          status: 'scheduled',
+          reminder_count: 0,
+          last_reminder_sent: null
         });
 
       if (error) {
