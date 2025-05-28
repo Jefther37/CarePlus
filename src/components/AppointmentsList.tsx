@@ -1,4 +1,3 @@
-
 import { Calendar, Clock, Phone, MessageSquare, Mail, MoreVertical } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -12,10 +11,12 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useAppointments, useSendReminder } from '@/hooks/useAppointments';
+import { useToast } from '@/hooks/use-toast';
 
 const AppointmentsList = () => {
   const { data: appointments, isLoading, error } = useAppointments();
   const sendReminderMutation = useSendReminder();
+  const { toast } = useToast();
 
   const getStatusColor = (status: string) => {
     switch (status?.toLowerCase()) {
