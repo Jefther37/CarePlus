@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Calendar, Clock, User, Phone, Mail, MessageSquare, Loader2 } from 'lucide-react';
 import {
@@ -25,9 +24,10 @@ interface AddAppointmentModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (data: any) => void;
+  isLoading?: boolean;
 }
 
-const AddAppointmentModal = ({ isOpen, onClose, onSubmit }: AddAppointmentModalProps) => {
+const AddAppointmentModal = ({ isOpen, onClose, onSubmit, isLoading = false }: AddAppointmentModalProps) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
@@ -347,7 +347,7 @@ const AddAppointmentModal = ({ isOpen, onClose, onSubmit }: AddAppointmentModalP
               variant="outline" 
               onClick={currentStep === 1 ? onClose : prevStep}
               className="transition-all duration-200 hover:scale-105 hover:shadow-md"
-              disabled={isSubmitting}
+              disabled={isSubmitting || isLoading}
             >
               {currentStep === 1 ? 'Cancel' : 'Previous'}
             </Button>
@@ -356,7 +356,7 @@ const AddAppointmentModal = ({ isOpen, onClose, onSubmit }: AddAppointmentModalP
               <Button 
                 type="button"
                 onClick={nextStep}
-                disabled={(currentStep === 1 && !canProceedToStep2) || (currentStep === 2 && !canProceedToStep3)}
+                disabled={(currentStep === 1 && !canProceedToStep2) || (currentStep === 2 && !canProceedToStep3) || isLoading}
                 className="bg-gradient-to-r from-blue-500 to-green-500 hover:from-blue-600 hover:to-green-600 text-white transition-all duration-200 hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
                 Next Step
@@ -364,10 +364,10 @@ const AddAppointmentModal = ({ isOpen, onClose, onSubmit }: AddAppointmentModalP
             ) : (
               <Button 
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isSubmitting || isLoading}
                 className="bg-gradient-to-r from-blue-500 to-green-500 hover:from-blue-600 hover:to-green-600 text-white transition-all duration-200 hover:scale-105 hover:shadow-lg disabled:opacity-50 min-w-[140px]"
               >
-                {isSubmitting ? (
+                {isSubmitting || isLoading ? (
                   <div className="flex items-center gap-2">
                     <Loader2 className="w-4 h-4 animate-spin" />
                     Scheduling...
