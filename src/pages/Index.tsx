@@ -15,6 +15,11 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
+  const handleScheduleClick = () => {
+    console.log('Schedule appointment button clicked');
+    setIsAddModalOpen(true);
+  };
+
   const handleAddAppointment = async (appointmentData: any) => {
     setIsLoading(true);
     console.log('New appointment:', appointmentData);
@@ -101,9 +106,10 @@ const Index = () => {
                 </div>
               </div>
               <Button 
-                onClick={() => setIsAddModalOpen(true)} 
+                onClick={handleScheduleClick}
                 className="medical-gradient hover:opacity-90 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover-scale text-xs sm:text-sm px-3 sm:px-4 py-2" 
                 disabled={isLoading}
+                type="button"
               >
                 <Plus className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
                 <span className="hidden sm:inline">Schedule Appointment</span>
