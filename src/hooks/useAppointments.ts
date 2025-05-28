@@ -43,44 +43,36 @@ export const useSendReminder = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ appointmentId, channel }: { appointmentId: string; channel: string }) => {
+    mutationFn: async ({ appointmentId, channel, appointment }: { 
+      appointmentId: string; 
+      channel: 'sms' | 'whatsapp' | 'email';
+      appointment: Appointment;
+    }) => {
       console.log(`Sending ${channel} reminder for appointment ${appointmentId}`);
       
-      // First, get the current reminder count
-      const { data: currentReminder, error: fetchError } = await supabase
-        .from('reminders')
-        .select('reminder_count')
-        .eq('id', appointmentId)
-        .single();
+      const { data, error } = await supabase.functions.invoke('send-notification', {
+        body: {
+          appointmentId,
+          channel,
+          patientName: appointment.patient_name,
+          patientPhone: appointment.patient_phone,
+          patientEmail: appointment.patient_email,
+          appointmentDate: appointment.appointment_date,
+          appointmentTime: appointment.appointment_time,
+          appointmentType: appointment.appointment_type,
+        },
+      });
 
-      if (fetchError) {
-        console.error('Error fetching current reminder:', fetchError);
-        throw fetchError;
+      if (error) {
+        console.error('Error calling notification function:', error);
+        throw error;
       }
 
-      // Update reminder count and last sent timestamp
-      const { error: updateError } = await supabase
-        .from('reminders')
-        .update({
-          last_reminder_sent: new Date().toISOString(),
-          reminder_count: (currentReminder?.reminder_count || 0) + 1
-        })
-        .eq('id', appointmentId);
-
-      if (updateError) {
-        console.error('Error updating reminder:', updateError);
-        throw updateError;
+      if (!data.success) {
+        throw new Error(data.error || 'Failed to send notification');
       }
 
-      // Log the reminder action
-      await supabase
-        .from('logs')
-        .insert({
-          action: `reminder_sent_${channel}`,
-          details: `Reminder sent via ${channel} for appointment ${appointmentId}`,
-        });
-
-      return { success: true };
+      return data;
     },
     onSuccess: (_, { channel }) => {
       toast({
@@ -89,11 +81,20 @@ export const useSendReminder = () => {
       });
       queryClient.invalidateQueries({ queryKey: ['appointments'] });
     },
-    onError: (error) => {
+    onError: (error: any) => {
       console.error('Error sending reminder:', error);
+      
+      let errorMessage = "Failed to send reminder. Please try again.";
+      
+      if (error.message?.includes('credentials not configured')) {
+        errorMessage = "Notification service not configured. Please contact support.";
+      } else if (error.message?.includes('Missing contact information')) {
+        errorMessage = "Missing contact information for this notification type.";
+      }
+      
       toast({
         title: "Error",
-        description: "Failed to send reminder. Please try again.",
+        description: errorMessage,
         variant: "destructive",
       });
     },

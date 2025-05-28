@@ -27,11 +27,34 @@ const AppointmentsList = () => {
     }
   };
 
-  const sendReminder = async (appointmentId: string, patient: string, type: 'sms' | 'whatsapp' | 'email') => {
-    console.log(`Sending ${type} reminder to ${patient} for appointment ${appointmentId}`);
+  const sendReminder = async (appointment: any, type: 'sms' | 'whatsapp' | 'email') => {
+    console.log(`Sending ${type} reminder to ${appointment.patient_name} for appointment ${appointment.id}`);
+    
+    // Validate contact information
+    if (type === 'sms' || type === 'whatsapp') {
+      if (!appointment.patient_phone) {
+        toast({
+          title: "Missing Information",
+          description: `No phone number available for ${appointment.patient_name}`,
+          variant: "destructive",
+        });
+        return;
+      }
+    } else if (type === 'email') {
+      if (!appointment.patient_email) {
+        toast({
+          title: "Missing Information", 
+          description: `No email address available for ${appointment.patient_name}`,
+          variant: "destructive",
+        });
+        return;
+      }
+    }
+
     sendReminderMutation.mutate({ 
-      appointmentId, 
-      channel: type 
+      appointmentId: appointment.id, 
+      channel: type,
+      appointment: appointment
     });
   };
 
@@ -159,27 +182,30 @@ const AppointmentsList = () => {
                       <Button
                         size="sm"
                         variant="outline"
-                        onClick={() => sendReminder(appointment.id, appointment.patient_name, 'sms')}
+                        onClick={() => sendReminder(appointment, 'sms')}
                         disabled={sendReminderMutation.isPending}
                         className="h-7 w-7 sm:h-8 sm:w-8 p-0 border-medical-blue/20 hover:bg-medical-blue-light/10 hover:scale-110 transition-all"
+                        title="Send SMS reminder"
                       >
                         <Phone className="w-3 h-3 text-medical-blue" />
                       </Button>
                       <Button
                         size="sm"
                         variant="outline"
-                        onClick={() => sendReminder(appointment.id, appointment.patient_name, 'whatsapp')}
+                        onClick={() => sendReminder(appointment, 'whatsapp')}
                         disabled={sendReminderMutation.isPending}
                         className="h-7 w-7 sm:h-8 sm:w-8 p-0 border-medical-green/20 hover:bg-medical-green-light/10 hover:scale-110 transition-all hidden sm:flex"
+                        title="Send WhatsApp reminder"
                       >
                         <MessageSquare className="w-3 h-3 text-medical-green" />
                       </Button>
                       <Button
                         size="sm"
                         variant="outline"
-                        onClick={() => sendReminder(appointment.id, appointment.patient_name, 'email')}
+                        onClick={() => sendReminder(appointment, 'email')}
                         disabled={sendReminderMutation.isPending}
                         className="h-7 w-7 sm:h-8 sm:w-8 p-0 border-medical-accent/20 hover:bg-medical-accent/10 hover:scale-110 transition-all hidden sm:flex"
+                        title="Send email reminder"
                       >
                         <Mail className="w-3 h-3 text-medical-accent" />
                       </Button>
@@ -195,8 +221,18 @@ const AppointmentsList = () => {
                         <DropdownMenuItem className="text-xs sm:text-sm">Edit Appointment</DropdownMenuItem>
                         <DropdownMenuItem className="text-xs sm:text-sm">View Patient History</DropdownMenuItem>
                         <DropdownMenuItem className="text-xs sm:text-sm">Reschedule</DropdownMenuItem>
-                        <DropdownMenuItem className="text-xs sm:text-sm sm:hidden">Send WhatsApp</DropdownMenuItem>
-                        <DropdownMenuItem className="text-xs sm:text-sm sm:hidden">Send Email</DropdownMenuItem>
+                        <DropdownMenuItem 
+                          className="text-xs sm:text-sm sm:hidden"
+                          onClick={() => sendReminder(appointment, 'whatsapp')}
+                        >
+                          Send WhatsApp
+                        </DropdownMenuItem>
+                        <DropdownMenuItem 
+                          className="text-xs sm:text-sm sm:hidden"
+                          onClick={() => sendReminder(appointment, 'email')}
+                        >
+                          Send Email
+                        </DropdownMenuItem>
                         <DropdownMenuItem className="text-destructive text-xs sm:text-sm">Cancel</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
